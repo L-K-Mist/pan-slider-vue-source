@@ -1,20 +1,56 @@
 <template>
-  <div>
-    <ken-burns :image="slides[0]"></ken-burns>
-    <!-- <agile autoplay>
-      <div class="slide" v-for="image in slides">
-        <h3>slide 1</h3>
-      </div>
-    </agile> -->
+  <div class="main-wrapper">
+    <div id="left">
+      <div class="static-header">Simple access to</div>
+      <div id="typewrite"></div>
+    </div>
+    <div id="right">
+      <agile
+        ref="carousel"
+        :speed="2000"
+        :rtl="true"
+        :dots="false"
+        timing="ease-in-out"
+        @beforeChange="beforeChange"
+        @afterChange="afterChange"
+      >
+        <div class="slide">
+          <ken-burns
+            v-if="currentSlide === 0 || nextSlide === 0"
+            :image="slides[0]"
+          ></ken-burns>
+        </div>
+        <div class="slide">
+          <ken-burns
+            v-if="currentSlide === 1 || nextSlide === 1"
+            :image="slides[1]"
+          ></ken-burns>
+        </div>
+        <div class="slide">
+          <ken-burns
+            v-if="currentSlide === 2 || nextSlide === 2"
+            :image="slides[2]"
+          ></ken-burns>
+        </div>
+        <template slot="prevButton">prev</template>
+        <template slot="nextButton">next</template>
+      </agile>
+    </div>
   </div>
 </template>
 
 <script>
-// import { VueAgile } from "vue-agile";
+import { VueAgile } from "vue-agile";
+import TypeIt from "typeit";
 import KenBurns from "../components/KenBurns";
 export default {
   data() {
-    return {};
+    return {
+      currentSlide: 0,
+      nextSlide: 0,
+      typeIt: null,
+      message: ""
+    };
   },
   props: {
     slides: {
@@ -38,14 +74,151 @@ export default {
       ]
     }
   },
-  mounted() {},
-  methods: {},
+  mounted() {
+    this.$emit("breakPoint", this.$refs.carousel.getCurrentBreakpoint());
+    this.typeIt = new TypeIt("#typewrite", {
+      cursor: true,
+      speed: 100
+      // loop: true
+    });
+    // this.typeIt
+    //   .type("long-term outperformance")
+    //   .pause(2000)
+    //   .delete()
+    //   .type("hand-picked companies")
+    //   .pause(2000)
+    //   .delete()
+    //   .type("global private equity")
+    //   .pause(2000)
+    //   .delete()
+    //   .go();
+  },
+  methods: {
+    beforeChange(event) {
+      // console.log("TCL: beforeChange -> event", event);
+      this.currentSlide = event.currentSlide;
+      this.nextSlide = event.nextSlide;
+      // let message = this.slides[this.nextSlide].caption;
+      // console.log("TCL: beforeChange -> message", message);
+      this.typeIt
+        .pause(1000)
+        .delete()
+        .go()
+        .reset();
+
+      console.log("TCL: beforeChange -> this.typeIt", this.typeIt);
+    },
+    afterChange(event) {
+      console.log("TCL: afterChange -> event", event);
+      let message = this.slides[event.currentSlide].caption;
+
+      this.typeIt
+        .type(message)
+        .go()
+        .reset();
+
+      // .delete()
+    }
+  },
   components: {
-    // agile: VueAgile,
+    agile: VueAgile,
     KenBurns
   }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style></style>
+<style>
+@import url("https://fonts.googleapis.com/css?family=Catamaran:400,600,700|Roboto:400,500,700&display=swap");
+
+.main-wrapper {
+  display: flex;
+  width: 100vw;
+  max-width: 1500px;
+  background: #ddf4f5;
+  justify-content: space-between;
+}
+
+#left {
+  width: 30%;
+  font-family: Catamaran, sans-serif;
+  font-weight: bold;
+  font-size: 80pt;
+  line-height: 84pt;
+  color: #20314e;
+}
+
+#left .static-header {
+  position: absolute;
+  top: 50px;
+  font-size: 28pt;
+  line-height: 28pt;
+}
+
+#typewrite {
+  position: absolute;
+  top: 100px;
+  width: 55%;
+  z-index: 2;
+}
+
+#right {
+  width: 66%;
+  justify-self: end;
+}
+
+#right *div {
+  padding: 0;
+  margin: 0;
+}
+
+/* From lib author  */
+.agile__actions {
+  margin-top: 20px;
+}
+
+.agile__nav-button {
+  background: transparent;
+  border: none;
+  color: #ccc;
+  cursor: pointer;
+  font-size: 24px;
+  transition-duration: 0.3s;
+}
+
+.agile__nav-button:hover {
+  color: #888;
+}
+
+.agile__dot {
+  margin: 0 10px;
+}
+
+.agile__dot button {
+  background-color: #eee;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: block;
+  height: 10px;
+  font-size: 0;
+  line-height: 0;
+  margin: 0;
+  padding: 0;
+  transition-duration: 0.3s;
+  width: 10px;
+}
+
+.agile__dot--current button,
+.agile__dot:hover button {
+  background-color: #888;
+}
+
+.slide {
+  align-items: center;
+  color: #fff;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+}
+</style>
