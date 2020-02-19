@@ -2,7 +2,20 @@
   <div class="main-wrapper">
     <div id="left">
       <div class="static-header">Simple access to</div>
-      <div id="typewrite"></div>
+
+      <vue-typer
+        class="typewrite"
+        :text="message"
+        :repeat="0"
+        :shuffle="false"
+        :pre-type-delay="70"
+        :type-delay="80"
+        :pre-erase-delay="3367"
+        :erase-delay="94"
+        erase-style="backspace"
+        :erase-on-complete="false"
+        caret-animation="phase"
+      ></vue-typer>
     </div>
     <div id="right">
       <agile
@@ -41,7 +54,7 @@
 
 <script>
 import { VueAgile } from "vue-agile";
-import TypeIt from "typeit";
+import { VueTyper } from "vue-typer";
 import KenBurns from "../components/KenBurns";
 export default {
   data() {
@@ -49,7 +62,8 @@ export default {
       currentSlide: 0,
       nextSlide: 0,
       typeIt: null,
-      message: ""
+      message: "",
+      countWord: 0
     };
   },
   props: {
@@ -76,22 +90,6 @@ export default {
   },
   mounted() {
     this.$emit("breakPoint", this.$refs.carousel.getCurrentBreakpoint());
-    this.typeIt = new TypeIt("#typewrite", {
-      cursor: true,
-      speed: 100
-      // loop: true
-    });
-    // this.typeIt
-    //   .type("long-term outperformance")
-    //   .pause(2000)
-    //   .delete()
-    //   .type("hand-picked companies")
-    //   .pause(2000)
-    //   .delete()
-    //   .type("global private equity")
-    //   .pause(2000)
-    //   .delete()
-    //   .go();
   },
   methods: {
     beforeChange(event) {
@@ -100,29 +98,20 @@ export default {
       this.nextSlide = event.nextSlide;
       // let message = this.slides[this.nextSlide].caption;
       // console.log("TCL: beforeChange -> message", message);
-      this.typeIt
-        .pause(1000)
-        .delete()
-        .go()
-        .reset();
 
       console.log("TCL: beforeChange -> this.typeIt", this.typeIt);
     },
     afterChange(event) {
       console.log("TCL: afterChange -> event", event);
-      let message = this.slides[event.currentSlide].caption;
-
-      this.typeIt
-        .type(message)
-        .go()
-        .reset();
+      this.message = this.slides[event.currentSlide].caption + " ";
 
       // .delete()
     }
   },
   components: {
     agile: VueAgile,
-    KenBurns
+    KenBurns,
+    VueTyper
   }
 };
 </script>
@@ -135,7 +124,7 @@ export default {
   display: flex;
   width: 100vw;
   max-width: 1500px;
-  background: #ddf4f5;
+
   justify-content: space-between;
 }
 
@@ -155,11 +144,23 @@ export default {
   line-height: 28pt;
 }
 
-#typewrite {
+.vue-typer {
+}
+
+.vue-typer .custom.char {
+  color: #20314e;
+}
+
+.typewrite {
   position: absolute;
   top: 100px;
   width: 55%;
   z-index: 2;
+  color: #20314e;
+}
+
+span.nowrap {
+  white-space: nowrap;
 }
 
 #right {
