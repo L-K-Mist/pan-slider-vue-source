@@ -6,12 +6,12 @@
       <vue-typer
         class="typewrite"
         :text="message"
-        :repeat="1"
+        :repeat="0"
         :shuffle="false"
         :pre-type-delay="70"
-        :type-delay="140"
-        :pre-erase-delay="367"
-        :erase-delay="194"
+        :type-delay="80"
+        :pre-erase-delay="3367"
+        :erase-delay="94"
         erase-style="backspace"
         :erase-on-complete="false"
         caret-animation="phase"
@@ -124,7 +124,7 @@ export default {
   display: flex;
   width: 100vw;
   max-width: 1500px;
-  background: #ddf4f5;
+
   justify-content: space-between;
 }
 
@@ -144,11 +144,19 @@ export default {
   line-height: 28pt;
 }
 
+.vue-typer {
+}
+
+.vue-typer .custom.char {
+  color: #20314e;
+}
+
 .typewrite {
   position: absolute;
   top: 100px;
   width: 55%;
   z-index: 2;
+  color: #20314e;
 }
 
 span.nowrap {
