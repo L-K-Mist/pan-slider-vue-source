@@ -57,17 +57,17 @@ export default {
       type: Array,
       default: () => [
         {
-          caption: "global private equity",
+          caption: "global private \nequity",
           imageSrc:
             "https://s3-eu-west-1.amazonaws.com/staging-wp-pip/pip/app/uploads/2020/02/17183537/slider_global_pe_%402x.jpg"
         },
         {
-          caption: "long-term outperformance",
+          caption: "long-term \noutperformance",
           imageSrc:
             "https://s3-eu-west-1.amazonaws.com/staging-wp-pip/pip/app/uploads/2020/02/18180140/slider_outperformance_%402x-1.jpg"
         },
         {
-          caption: "hand-picked companies",
+          caption: "hand-picked \ncompanies",
           imageSrc:
             "https://s3-eu-west-1.amazonaws.com/staging-wp-pip/pip/app/uploads/2020/02/17183538/slider_hand_picked_%402x.jpg"
         }
