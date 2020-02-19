@@ -9,10 +9,10 @@
   },
   "dependencies": {
     "core-js": "^3.4.4",
-    "typeit": "^6.5.1",
     "vue": "^2.6.10",
     "vue-agile": "^1.0.11",
-    "vue-custom-element": "^3.2.12"
+    "vue-custom-element": "^3.2.12",
+    "vue-typer": "^1.2.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.1.0",
