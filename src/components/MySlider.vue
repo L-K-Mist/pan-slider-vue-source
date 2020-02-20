@@ -20,7 +20,7 @@
     <div id="right">
       <agile
         ref="carousel"
-        :autoplay="false"
+        :autoplay="true"
         :autoplaySpeed="8000"
         :speed="2000"
         :rtl="true"
