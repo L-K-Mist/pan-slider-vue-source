@@ -20,6 +20,8 @@
     <div id="right">
       <agile
         ref="carousel"
+        :autoplay="false"
+        :autoplaySpeed="8000"
         :speed="2000"
         :rtl="true"
         :dots="false"
@@ -45,8 +47,8 @@
             :image="slides[2]"
           ></ken-burns>
         </div>
-        <template slot="prevButton">prev</template>
         <template slot="nextButton">next</template>
+        <template slot="prevButton">prev</template>
       </agile>
     </div>
   </div>
@@ -99,10 +101,10 @@ export default {
       // let message = this.slides[this.nextSlide].caption;
       // console.log("TCL: beforeChange -> message", message);
 
-      console.log("TCL: beforeChange -> this.typeIt", this.typeIt);
+      // console.log("TCL: beforeChange -> this.typeIt", this.typeIt);
     },
     afterChange(event) {
-      console.log("TCL: afterChange -> event", event);
+      // console.log("TCL: afterChange -> event", event);
       this.message = this.slides[event.currentSlide].caption + " ";
 
       // .delete()
@@ -123,8 +125,8 @@ export default {
 .main-wrapper {
   display: flex;
   width: 100vw;
-  max-width: 1500px;
-
+  max-width: 1400px;
+  height: 900px;
   justify-content: space-between;
 }
 
@@ -139,38 +141,46 @@ export default {
 
 #left .static-header {
   position: absolute;
-  top: 50px;
+  top: 150px;
   font-size: 28pt;
   line-height: 28pt;
+  z-index: 2;
 }
-
-.vue-typer {
-}
-
-.vue-typer .custom.char {
-  color: #20314e;
+#right {
+  width: 66%;
+  min-width: 800px;
+  justify-self: end;
+  object-fit: cover;
 }
 
 .typewrite {
   position: absolute;
-  top: 100px;
-  width: 55%;
+  top: 200px;
+  width: 80%;
   z-index: 2;
   color: #20314e;
+}
+
+.vue-typer .custom {
+  color: #20314e;
+  /* color: white */
 }
 
 span.nowrap {
   white-space: nowrap;
 }
 
-#right {
-  width: 66%;
-  justify-self: end;
+.agile {
+  height: 700px;
 }
 
-#right *div {
-  padding: 0;
-  margin: 0;
+.slide {
+  display: flex;
+  align-items: center;
+  color: #fff;
+  height: 700px;
+
+  justify-content: center;
 }
 
 /* From lib author  */
@@ -215,11 +225,50 @@ span.nowrap {
   background-color: #888;
 }
 
-.slide {
-  align-items: center;
-  color: #fff;
-  display: flex;
-  height: 100%;
-  justify-content: center;
+/* TODO definitely need a 650 and under setting for landscape cell-phones */
+
+@media screen and (max-width: 928px) {
+  .typewrite {
+    font-size: 64pt;
+    line-height: 70pt;
+  }
+}
+/* On screens that are 768px or less, set the background color to blue */
+@media screen and (max-width: 768px) {
+  .typewrite {
+    color: white;
+    font-size: 28pt;
+    line-height: 32pt;
+  }
+  /* without the extra specificity the text doesn't turn white at small screens */
+  .vue-typer .custom.char {
+    color: white;
+  }
+
+  #left .static-header {
+    top: 50px;
+    font-size: 18pt;
+    line-height: 18pt;
+    margin-left: 15px;
+    color: white;
+  }
+  .typewrite {
+    margin-left: 15px;
+    top: 100px;
+  }
+  #left {
+    width: 0;
+  }
+  #right {
+    width: 100%;
+    min-width: 200px;
+  }
+  .agile {
+    height: 300px;
+  }
+  .slide {
+    width: 100%;
+    height: 500px;
+  }
 }
 </style>
