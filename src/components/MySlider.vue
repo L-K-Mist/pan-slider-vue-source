@@ -20,9 +20,9 @@
     <div id="right">
       <agile
         ref="carousel"
-        :autoplay="false"
-        :autoplaySpeed="8000"
-        :speed="2000"
+        :autoplay="sliderConfig.autoplay"
+        :autoplaySpeed="sliderConfig.autoplaySpeed"
+        :speed="sliderConfig.speed"
         :rtl="true"
         :dots="false"
         timing="ease-in-out"
@@ -88,6 +88,14 @@ export default {
             "https://s3-eu-west-1.amazonaws.com/staging-wp-pip/pip/app/uploads/2020/02/17183538/slider_hand_picked_%402x.jpg"
         }
       ]
+    },
+    sliderConfig: {
+      type: Object,
+      default: () => ({
+        autoplay: true,
+        autoplaySpeed: 8000,
+        speed: 2000
+      })
     }
   },
   mounted() {

@@ -17,7 +17,32 @@
       style="width: 100vw; display: flex; justify-content: space-between; background: #ddf4f5;"
     >
       <div></div>
-      <pan-slider></pan-slider>
+      <pan-slider id="main-slider"></pan-slider>
     </div>
+    <script>
+      mainSlider = document.getElementById("main-slider");
+      mainSlider.sliderConfig = {
+        autoplay: true,
+        autoplaySpeed: 6000,
+        speed: 1000
+      };
+      mainSlider.slides = [
+        {
+          caption: "global private \nequity",
+          imageSrc:
+            "https://s3-eu-west-1.amazonaws.com/staging-wp-pip/pip/app/uploads/2020/02/20141419/slider_outperformance_v2%402x.jpg"
+        },
+        {
+          caption: "long-term \noutperformance",
+          imageSrc:
+            "https://s3-eu-west-1.amazonaws.com/staging-wp-pip/pip/app/uploads/2020/02/17183537/slider_global_pe_%402x.jpg"
+        },
+        {
+          caption: "hand-picked \ncompanies",
+          imageSrc:
+            "https://s3-eu-west-1.amazonaws.com/staging-wp-pip/pip/app/uploads/2020/02/17183538/slider_hand_picked_%402x.jpg"
+        }
+      ];
+    </script>
   </body>
 </html>
