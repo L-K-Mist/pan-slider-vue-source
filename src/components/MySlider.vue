@@ -303,12 +303,17 @@ span.nowrap {
     color: white;
     font-size: 28pt;
     line-height: 32pt;
+    margin-left: 15px;
+    top: 100px;
   }
+
   /* without the extra specificity the text doesn't turn white at small screens */
   .vue-typer .custom.char {
     color: white;
   }
-
+  #left {
+    width: 0;
+  }
   #left .static-header {
     top: 50px;
     font-size: 18pt;
@@ -316,31 +321,42 @@ span.nowrap {
     margin-left: 15px;
     color: white;
   }
-  .typewrite {
-    margin-left: 15px;
-    top: 100px;
-  }
-  #left {
-    width: 0;
-  }
+
   #right {
-    width: 100%;
+    width: 98%;
     // min-width: 200px;
   }
   .agile {
-    height: 300px;
+    width: 768px;
   }
   .slide {
-    width: 100%;
     height: 500px;
   }
 }
 
+@media screen and (max-width: 500px) {
+  .agile {
+    width: 500px;
+  }
+}
+
 @media screen and (max-width: 350px) {
+  .mdc-fab {
+    top: 258px;
+    right: -10px;
+    height: 70px;
+    width: 70px;
+  }
   .typewrite {
     color: white;
     font-size: 22pt;
     line-height: 26pt;
+  }
+  .agile {
+    width: 350px;
+  }
+  .slide {
+    height: 300px;
   }
 }
 </style>
