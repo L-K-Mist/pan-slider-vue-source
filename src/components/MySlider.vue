@@ -20,8 +20,7 @@
     <div id="right">
       <agile
         ref="carousel"
-        :autoplay="autoplay"
-        :autoplaySpeed="autoplaySpeed"
+        :autoplay="false"
         :speed="sliderConfig.speed"
         :rtl="true"
         :dots="false"
@@ -52,12 +51,12 @@
       </agile>
       <m-fab
         @mouseover="
-          autoplay = true;
-          autoplaySpeed = 80000;
+          pauseAutoplay = true;
+          autoPlay();
         "
         @mouseleave="
-          autoplay = false;
-          autoplaySpeed = sliderConfig.autoplaySpeed;
+          pauseAutoplay = false;
+          autoPlay();
         "
         baseline
         @click="$refs.carousel.goToNext()"
@@ -83,15 +82,10 @@ export default {
       countWord: 0,
       nextIcon,
       nextButtonHover: false,
-      autoplay: this.sliderConfig.autoplay,
-      autoplaySpeed: this.sliderConfig.autoplaySpeed
+      pauseAutoplay: false
     };
   },
-  watch: {
-    autoplay(newVal) {
-      console.log("TCL: autoplay -> newVal", newVal);
-    }
-  },
+  watch: {},
   props: {
     slides: {
       type: Array,
@@ -124,16 +118,21 @@ export default {
   },
   mounted() {
     this.$emit("breakPoint", this.$refs.carousel.getCurrentBreakpoint());
+    // Create own autoplay so that I can pause on button hover
+    this.autoPlay();
   },
   methods: {
+    async autoPlay() {
+      if (this.pauseAutoplay) return;
+      var wait = ms => new Promise(r => setTimeout(r, ms)); // Creates a non-blocking wait function.
+      await wait(this.sliderConfig.autoplaySpeed);
+      this.$refs.carousel.goToNext();
+      this.autoPlay();
+    },
     beforeChange(event) {
       // console.log("TCL: beforeChange -> event", event);
       this.currentSlide = event.currentSlide;
       this.nextSlide = event.nextSlide;
-      // let message = this.slides[this.nextSlide].caption;
-      // console.log("TCL: beforeChange -> message", message);
-
-      // console.log("TCL: beforeChange -> this.typeIt", this.typeIt);
     },
     afterChange(event) {
       // console.log("TCL: afterChange -> event", event);
@@ -158,7 +157,7 @@ export default {
 
 .mdc-fab {
   position: absolute;
-  bottom: 400px;
+  top: 480px;
   transform: translateX(-50%);
   background-color: var(--mdc-theme-secondary, #287bbe);
   height: 100px;
@@ -190,7 +189,7 @@ export default {
 }
 
 #left {
-  width: 30%;
+  width: 28%;
   font-family: Catamaran, sans-serif;
   font-weight: bold;
   font-size: 80pt;
@@ -220,9 +219,8 @@ export default {
   color: #20314e;
 }
 
-.vue-typer .custom {
+.vue-typer .custom.char {
   color: #20314e;
-  /* color: white */
 }
 
 span.nowrap {
@@ -292,8 +290,15 @@ span.nowrap {
     line-height: 70pt;
   }
 }
-/* On screens that are 768px or less, set the background color to blue */
+
 @media screen and (max-width: 768px) {
+  .mdc-fab {
+    top: 447px;
+    right: -10px;
+    height: 70px;
+    width: 70px;
+  }
+
   .typewrite {
     color: white;
     font-size: 28pt;
@@ -320,7 +325,7 @@ span.nowrap {
   }
   #right {
     width: 100%;
-    min-width: 200px;
+    // min-width: 200px;
   }
   .agile {
     height: 300px;
@@ -328,6 +333,14 @@ span.nowrap {
   .slide {
     width: 100%;
     height: 500px;
+  }
+}
+
+@media screen and (max-width: 350px) {
+  .typewrite {
+    color: white;
+    font-size: 22pt;
+    line-height: 26pt;
   }
 }
 </style>
