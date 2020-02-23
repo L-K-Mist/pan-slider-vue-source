@@ -1,7 +1,7 @@
 {
-  "name": "custom-element-starter",
-  "version": "0.1.0",
-  "private": true,
+  "name": "@lkmist/pan-slider-planet",
+  "version": "0.2.1",
+  "private": false,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
