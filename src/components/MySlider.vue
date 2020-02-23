@@ -20,11 +20,13 @@
     <div id="right">
       <agile
         ref="carousel"
-        :autoplay="sliderConfig.autoplay"
-        :autoplaySpeed="sliderConfig.autoplaySpeed"
+        :autoplay="autoplay"
+        :autoplaySpeed="autoplaySpeed"
         :speed="sliderConfig.speed"
         :rtl="true"
         :dots="false"
+        :navButtons="false"
+        :pauseOnHover="true"
         timing="ease-in-out"
         @beforeChange="beforeChange"
         @afterChange="afterChange"
@@ -47,14 +49,20 @@
             :image="slides[2]"
           ></ken-burns>
         </div>
-        <template slot="nextButton">
-          <!-- <m-fab baseline><m-icon icon="add" slot="icon"></m-icon></m-fab> -->
-          <m-fab baseline
-            ><img slot="icon" class="next-svg" :src="nextIcon" alt=""
-          /></m-fab>
-        </template>
-        <template slot="prevButton">prev</template>
       </agile>
+      <m-fab
+        @mouseover="
+          autoplay = true;
+          autoplaySpeed = 80000;
+        "
+        @mouseleave="
+          autoplay = false;
+          autoplaySpeed = sliderConfig.autoplaySpeed;
+        "
+        baseline
+        @click="$refs.carousel.goToNext()"
+        ><img slot="icon" class="next-svg" :src="nextIcon" alt=""
+      /></m-fab>
     </div>
   </div>
 </template>
@@ -64,7 +72,7 @@ import { VueAgile } from "vue-agile";
 import { VueTyper } from "vue-typer";
 
 import KenBurns from "../components/KenBurns";
-import nextIcon from "../assets/next-button.svg";
+import nextIcon from "../assets/step-forward.svg";
 export default {
   data() {
     return {
@@ -73,8 +81,16 @@ export default {
       typeIt: null,
       message: "",
       countWord: 0,
-      nextIcon
+      nextIcon,
+      nextButtonHover: false,
+      autoplay: this.sliderConfig.autoplay,
+      autoplaySpeed: this.sliderConfig.autoplaySpeed
     };
+  },
+  watch: {
+    autoplay(newVal) {
+      console.log("TCL: autoplay -> newVal", newVal);
+    }
   },
   props: {
     slides: {
@@ -141,15 +157,29 @@ export default {
 @import url("https://unpkg.com/material-components-vue/dist/fab/fab.min.css");
 
 .mdc-fab {
-  background-color: var(--mdc-theme-secondary, #e5f0f0);
+  position: absolute;
+  bottom: 400px;
+  transform: translateX(-50%);
+  background-color: var(--mdc-theme-secondary, #287bbe);
   height: 100px;
   width: 100px;
+  z-index: 24;
 }
 
 .mdc-fab .mdc-fab__icon {
-  width: 102%;
-  height: 102%;
+  width: 60%;
+  height: 60%;
   font-size: 24px;
+}
+
+.mdc-fab.mdc-ripple-upgraded {
+  --mdc-ripple-fg-opacity: 0.2;
+}
+
+.mdc-fab:after,
+.mdc-fab:before {
+  background-color: var(--mdc-theme-on-secondary, #fff);
+  opacity: 0;
 }
 .main-wrapper {
   display: flex;
@@ -178,8 +208,8 @@ export default {
 #right {
   width: 66%;
   min-width: 800px;
-  justify-self: end;
-  object-fit: cover;
+  // justify-self: end;
+  // object-fit: cover;
 }
 
 .typewrite {
