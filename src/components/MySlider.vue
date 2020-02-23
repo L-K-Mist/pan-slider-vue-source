@@ -60,8 +60,19 @@
         "
         baseline
         @click="$refs.carousel.goToNext()"
-        ><img slot="icon" class="next-svg" :src="nextIcon" alt=""
-      /></m-fab>
+      >
+        <svg
+          slot="icon"
+          class="next-svg"
+          viewBox="0 0 1024 1024"
+          version="1.1"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M241.027 166.322l508.189 293.403V194.106c0-17.673 14.327-32 32-32s32 14.327 32 32v637.468c0 17.673-14.327 32-32 32s-32-14.327-32-32V564.456L241.027 857.859c-21.333 12.317-48-3.079-48-27.713V194.035c0-24.634 26.666-40.03 48-27.713z"
+            fill="white"
+          /></svg
+      ></m-fab>
     </div>
   </div>
 </template>
