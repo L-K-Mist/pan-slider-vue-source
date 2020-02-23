@@ -9,6 +9,9 @@
   },
   "dependencies": {
     "core-js": "^3.4.4",
+    "material-components-vue": "^1.2.0",
+    "node-sass": "^4.13.1",
+    "sass-loader": "^8.0.2",
     "vue": "^2.6.10",
     "vue-agile": "^1.0.11",
     "vue-custom-element": "^3.2.12",

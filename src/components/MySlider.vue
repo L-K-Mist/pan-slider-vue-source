@@ -47,7 +47,12 @@
             :image="slides[2]"
           ></ken-burns>
         </div>
-        <template slot="nextButton">next</template>
+        <template slot="nextButton">
+          <!-- <m-fab baseline><m-icon icon="add" slot="icon"></m-icon></m-fab> -->
+          <m-fab baseline
+            ><img slot="icon" class="next-svg" :src="nextIcon" alt=""
+          /></m-fab>
+        </template>
         <template slot="prevButton">prev</template>
       </agile>
     </div>
@@ -57,7 +62,9 @@
 <script>
 import { VueAgile } from "vue-agile";
 import { VueTyper } from "vue-typer";
+
 import KenBurns from "../components/KenBurns";
+import nextIcon from "../assets/next-button.svg";
 export default {
   data() {
     return {
@@ -65,7 +72,8 @@ export default {
       nextSlide: 0,
       typeIt: null,
       message: "",
-      countWord: 0
+      countWord: 0,
+      nextIcon
     };
   },
   props: {
@@ -127,9 +135,22 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
+<style lang="scss">
 @import url("https://fonts.googleapis.com/css?family=Catamaran:400,600,700|Roboto:400,500,700&display=swap");
+// @import "material-components-vue/dist/icon-button/styles.scss";
+@import url("https://unpkg.com/material-components-vue/dist/fab/fab.min.css");
 
+.mdc-fab {
+  background-color: var(--mdc-theme-secondary, #e5f0f0);
+  height: 100px;
+  width: 100px;
+}
+
+.mdc-fab .mdc-fab__icon {
+  width: 102%;
+  height: 102%;
+  font-size: 24px;
+}
 .main-wrapper {
   display: flex;
   width: 100vw;
